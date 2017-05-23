@@ -34,10 +34,25 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'mysql2'
+gem 'therubyracer'
+gem 'thin'
+gem 'jquery-ui-rails'
+gem 'less-rails'
+gem 'active_model_serializers', '~> 0.8.0'
+gem 'acts_as_list'
+gem 'bcrypt'
+gem 'ejs'
+gem 'json', github: 'flori/json', branch: 'v1.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'pry-rails'
+  gem 'rspec-rails'
+  gem 'annotate'
 end
 
 group :development do
