@@ -1,36 +1,13 @@
-Rails::Application.routes.draw do
+Rails.application.routes.draw do
 
-  root to: "main#index"
-  resource :root, only: [:index]
+  root :to => "boards#index"
+  resources :boards, :only => [:index, :show]
 
-  resource :session, only: [:new, :create, :destroy]
+  resource :session, :only => [:new, :create, :destroy]
   get "login" => "sessions#new"
   get "logout" => "sessions#destroy"
-  get "register" => "sessions#register"
 
-  # resources :users, only: [:show]
 
-  namespace :api do
-    resources :users, only: [:show] do
-      collection do
-        get :current
-      end
-    end
-
-    resources :boards, only: [:index, :show, :create, :update]
-
-    resources :lists , except: [:edit] do
-      collection do
-        post :sort
-      end
-    end
-
-    resources :cards, except: [:edit] do
-      collection do
-        post :sort
-      end
-    end
-
-    resources :card_comments, only: [:index, :create, :destroy]
-  end
+  resources :users, :only => [:create]
+  get "register" => "users#new"
 end

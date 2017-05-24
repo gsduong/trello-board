@@ -12,82 +12,82 @@
 
 ActiveRecord::Schema.define(version: 20170516221253) do
 
-  create_table "board_activities", force: :cascade do |t|
-    t.integer  "member_id",   null: false
-    t.integer  "board_id",    null: false
-    t.text     "description", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["board_id"], name: "index_board_activities_on_board_id"
+  create_table "board_activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "member_id",                 null: false
+    t.integer  "board_id",                  null: false
+    t.text     "description", limit: 65535, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["board_id"], name: "index_board_activities_on_board_id", using: :btree
   end
 
-  create_table "board_members", force: :cascade do |t|
+  create_table "board_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "board_id",                  null: false
     t.integer  "member_id",                 null: false
     t.boolean  "admin",      default: true, null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.index ["board_id", "member_id"], name: "index_board_members_on_board_id_and_member_id", unique: true
-    t.index ["board_id"], name: "index_board_members_on_board_id"
+    t.index ["board_id", "member_id"], name: "index_board_members_on_board_id_and_member_id", unique: true, using: :btree
+    t.index ["board_id"], name: "index_board_members_on_board_id", using: :btree
   end
 
-  create_table "boards", force: :cascade do |t|
+  create_table "boards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
     t.string   "description"
     t.boolean  "open",        default: true, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.index ["open"], name: "index_boards_on_open"
+    t.index ["open"], name: "index_boards_on_open", using: :btree
   end
 
-  create_table "card_activities", force: :cascade do |t|
-    t.integer  "member_id",   null: false
-    t.integer  "card_id",     null: false
-    t.text     "description", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["card_id"], name: "index_card_activities_on_card_id"
+  create_table "card_activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "member_id",                 null: false
+    t.integer  "card_id",                   null: false
+    t.text     "description", limit: 65535, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["card_id"], name: "index_card_activities_on_card_id", using: :btree
   end
 
-  create_table "card_comments", force: :cascade do |t|
-    t.integer  "card_id",      null: false
-    t.integer  "commenter_id", null: false
-    t.text     "content"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["card_id"], name: "index_card_comments_on_card_id"
+  create_table "card_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "card_id",                    null: false
+    t.integer  "commenter_id",               null: false
+    t.text     "content",      limit: 65535
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["card_id"], name: "index_card_comments_on_card_id", using: :btree
   end
 
-  create_table "card_members", force: :cascade do |t|
+  create_table "card_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "card_id",    null: false
     t.integer  "member_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["card_id", "member_id"], name: "index_card_members_on_card_id_and_member_id", unique: true
-    t.index ["card_id"], name: "index_card_members_on_card_id"
+    t.index ["card_id", "member_id"], name: "index_card_members_on_card_id_and_member_id", unique: true, using: :btree
+    t.index ["card_id"], name: "index_card_members_on_card_id", using: :btree
   end
 
-  create_table "cards", force: :cascade do |t|
-    t.integer  "list_id",                    null: false
-    t.string   "title",                      null: false
-    t.text     "description"
+  create_table "cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "list_id",                                  null: false
+    t.string   "title",                                    null: false
+    t.text     "description", limit: 65535
     t.datetime "due_date"
-    t.boolean  "open",        default: true, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["list_id"], name: "index_cards_on_list_id"
+    t.boolean  "open",                      default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.index ["list_id"], name: "index_cards_on_list_id", using: :btree
   end
 
-  create_table "lists", force: :cascade do |t|
+  create_table "lists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "board_id",                  null: false
     t.string   "title"
     t.boolean  "open",       default: true, null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.index ["board_id"], name: "index_lists_on_board_id"
+    t.index ["board_id"], name: "index_lists_on_board_id", using: :btree
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "username"
     t.string   "email",           null: false
     t.string   "password_digest"
@@ -96,9 +96,9 @@ ActiveRecord::Schema.define(version: 20170516221253) do
     t.string   "bio"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["session_key"], name: "index_users_on_session_key"
-    t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["session_key"], name: "index_users_on_session_key", using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
 end
