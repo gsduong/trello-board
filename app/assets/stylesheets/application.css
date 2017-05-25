@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+#wrapper footer {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}

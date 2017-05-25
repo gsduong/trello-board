@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Trello Board</title>
-  <%= favicon_link_tag "/favicon.ico" %>
-  <%= stylesheet_link_tag "application", media: "all" %>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <title>ICT TrelloBoard</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -13,40 +10,19 @@
 
 <div id="wrapper">
 
-  <div class="github-fork-ribbon-wrapper right">
-    <div class="github-fork-ribbon">
-        <a href="https://github.com/framgia/trello-board/tree/develop">Copyright ICT58</a>
-    </div>
-  </div>
-
-  <div id="header">
-    <div class="header-logo">
-      <h1><a href="#/">TRELLO BOARD<span>ICT Project Management Tool</span></a></h1>
-    </div>
-    <div class="header-user">
-      <% if logged_in? %>
-        <%= link_to image_tag(current_user.gravatar_url(30), class: "avatar"), "#" %>
-        <p>(<%= link_to "Logout", logout_url %>)</p>
-      <% else %>
-        <p><%= link_to "Login", login_url %></p>
-      <% end %>
-       <% if logged_in? %>
-        <p>(<%= link_to "Register", register_url %>)</p>
-      <% else %>
-        <p><%= link_to "Register", register_url %></p>
-      <% end %>
-    </div>
-  </div>
-
-  <div id="main clearfix">
+  <div id="main">
     <%= yield %>
   </div>
 
-  <div id="footer">
-    <p>
-      Trello Board is a project created by ICT58.
-    </p>
-  </div>
+  <footer>
+    <% if logged_in? %>
+        <p>welcome back <%= current_user.email %> (<%= link_to "logout", logout_url %>)</p>
+        <p><%= current_user.session_key %></p>
+    <% else %>
+        <p><%= link_to "login", login_url %>
+    <% end %>
+  </footer>
+
 </div>
 
 </body>
