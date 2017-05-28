@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ICT TrelloBoard</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <title>ICT Trello Board</title>
+  <%= stylesheet_link_tag    "application", :media => "all" , 'data-turbolinks-track': 'reload'%>
+  <%= javascript_include_tag "application" , 'data-turbolinks-track': 'reload'%>
   <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+  </script>
+  <![endif]-->
 </head>
 <body>
 
-<div id="wrapper">
+<%= render 'layouts/header' %>
 
-  <div id="main">
-    <%= yield %>
-  </div>
+<div class="container">
 
-  <footer>
-    <% if logged_in? %>
-        <p>welcome back <%= current_user.email %> (<%= link_to "logout", logout_url %>)</p>
-        <p><%= current_user.session_key %></p>
-    <% else %>
-        <p><%= link_to "login", login_url %>
-    <% end %>
-  </footer>
+  <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>"><%= message %></div>
+  <% end %>
 
+  <%= yield %>
+
+  <!--<%= render 'layouts/footer' %>-->
 </div>
 
 </body>
