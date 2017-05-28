@@ -9,4 +9,13 @@ class ApplicationController < ActionController::Base
         redirect_to root_url
       end
     end
+
+  def require_login
+    unless logged_in?
+      respond_to do |format|
+        format.html { redirect_to login_url }
+        format.json { render json: { nope: true }, status: :unauthorized }
+      end
+    end
+  end
 end
