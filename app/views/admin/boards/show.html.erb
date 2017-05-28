@@ -1,0 +1,130 @@
+<section class="content-header">
+  <div class="row">
+    <div class="col-md-9">
+      <h2>
+        <%= link_to "#{@board.name}", edit_admin_board_path(@board) %>
+        <small><small><small>Created on <%= @board.created_at.strftime('%b %d, %Y') %></small></small></small>
+      </h2>
+      <small><small><%= @board.description %></small></small>
+    </div>
+
+
+  <div class="col-md-3">
+    <input type="text" id="send-along" class="form-control" placeholder="Add new member ... " style="margin-top: 20px;"/>
+  </div>
+
+  </div>
+</section>
+
+<section class="content">
+
+  <!-- Main row-->
+  <div class="row">
+    <div class="col-md-9">
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">Visitors Report</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row">
+            <div class="col-md-9 col-sm-8">
+
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-4">
+              <div class="pad box-pane-right bg-green" style="min-height: 280px">
+                <div class="description-block margin-bottom">
+                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
+                  <h5 class="description-header">8390</h5>
+                  <span class="description-text">Visits</span>
+                </div>
+                <!-- /.description-block -->
+                <div class="description-block margin-bottom">
+                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
+                  <h5 class="description-header">30%</h5>
+                  <span class="description-text">Referrals</span>
+                </div>
+                <!-- /.description-block -->
+                <div class="description-block">
+                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
+                  <h5 class="description-header">70%</h5>
+                  <span class="description-text">Organic</span>
+                </div>
+                <!-- /.description-block -->
+              </div>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="box box-danger">
+        <div class="box-header with-border">
+          <h3 class="box-title">Admin</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <ul class="users-list clearfix">
+            <li>
+              <%= gravatar_for(current_user) %>
+              <span class="users-list-date">Added <%= added_time(current_user, @board) %></span>
+            </li>
+          </ul>
+          <!-- /.admin -->
+        </div>
+      </div>
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Members</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <ul class="users-list clearfix">
+            <% @members.each do |user| %>
+                <% if user.id != current_user.id %>
+                  <li>
+                    <%= gravatar_for(user) %>
+                    <span class="users-list-date">Added <%= added_time(user, @board) %></span>
+                  </li>
+                <% end %>
+            <% end %>
+          </ul>
+          <!-- /.users-list -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+<!--script-->
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+
+        var availableTags = ["http://www.google.com","http://www.yahoo.com",
+            "http://www.utexas.edu"];
+        $("#send-along").autocomplete({
+            source: availableTags,
+            select: function(event, ui) {
+                window.location  = (ui.item.value);
+                return false;
+            }
+        }).data("autocomplete")._renderItem = function( ul, item ) {
+            return $( "<li></li>" )
+                .data( "item.autocomplete", item )
+                .append( "<a href='#'>"+ item.value + "</a>" )
+                .appendTo( ul );
+        };
+
+    });
+</script>
+
+</section>
