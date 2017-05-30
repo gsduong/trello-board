@@ -50,6 +50,10 @@ class BoardsController < ApplicationController
       redirect_to root_url unless (!@board.nil?)
     end
 
+  def board_params
+    params.require(:board).permit(:name, :description)
+  end
+
   # Check if user can view this board or not
   def is_member
     @user = User.find(current_user.id)

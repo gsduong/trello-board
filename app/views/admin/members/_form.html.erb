@@ -1,0 +1,8 @@
+<%= form_tag admin_board_members_path, method: :post do%>
+    <input type="text" id="send-along" class="form-control" placeholder="Add new member ... " style="margin-top: 20px;"/>
+    <br>
+    <input type="hidden" name="member_id" id="member_id">
+    <div class="actions">
+      <%= submit_tag 'Submit', class: 'btn btn-info', id: 'submit'%>
+    </div>
+<% end %>
