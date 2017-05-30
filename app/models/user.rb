@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   # Define has_many Board through joint table board_members
   has_many  :board_members, :foreign_key => 'member_id', :class_name => 'BoardMember'
-  has_many  :boards, :through => :board_members
+  has_many  :boards, :through => :board_members, dependent: :destroy
 
   # Define has_many CardMember
   has_many  :card_members, :class_name => 'CardMember', :foreign_key => 'member_id'
@@ -44,6 +44,12 @@ class User < ApplicationRecord
   # Forgets a user.
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # Use this method for admin/boards_helper.rb
+  def is_admin?(board)
+    record = self.board_members.find_by(board_id: board.id)
+    record.nil? ? false : record[:admin]
   end
 
 end

@@ -1,0 +1,62 @@
+<h1>Boards</h1>
+
+<div class="row">
+  <div class="col-md-3">
+    <%= link_to 'Add new Board', new_board_path %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-sm-12 col-xs-12">
+    <h3>Your boards</h3>
+    <% @admin_boards.inspect %>
+    <% @admin_boards.each_slice(2) do |board_array| %>
+        <div class="row">
+          <% board_array.each do |board| %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <%= board.name %>
+
+                    <%= link_to edit_admin_board_path(board), method: :delete, data: {confirm: 'Are you sure?'}, class: 'pull-right' do %>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <% end %>
+                    <span class="pull-right">&nbsp;&nbsp;</span>
+
+                    <%= link_to edit_admin_board_path(board), :class => 'pull-right' do %>
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <% end %>
+                    <span class="pull-right">&nbsp;&nbsp;</span>
+                    <%= link_to admin_board_path(board), :class => 'pull-right' do %>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+  <!-- End of admin boards-->
+
+  <div class="col-md-6 col-sm-12 col-xs-12">
+    <h3>Boards you involved</h3>
+    <% @boards.each_slice(4) do |board_array| %>
+        <div class="row">
+          <% board_array.each do |board| %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <%= board.name %>
+                    <%= link_to board_path(board), :class => 'pull-right' do %>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+  <!-- End of normal boards-->
+</div>

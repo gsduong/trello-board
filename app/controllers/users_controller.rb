@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, :only => [:show]
-
+  before_action :correct_user, :only => [:show]
   def new
     @user = User.new
   end
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in  @user
       flash[:success] = 'Welcome to the Trello App!'
-      redirect_to @user
+      redirect_to root_url
     else
       render 'new'
     end
@@ -25,5 +25,11 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :password,
                                  :password_confirmation)
+  end
+
+  # Confirms the correct user.
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless @user == current_user
   end
 end
