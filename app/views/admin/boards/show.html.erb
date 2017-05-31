@@ -10,7 +10,9 @@
 
 
   <div class="col-md-3">
-    <input type="text" id="send-along" class="form-control" placeholder="Add new member ... " style="margin-top: 20px;"/>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <%= link_to 'Add new member', new_admin_board_member_path(@board) %>
   </div>
 
   </div>
@@ -93,7 +95,9 @@
             <% @members.each do |user| %>
                 <% if user.id != current_user.id %>
                   <li>
-                    <%= gravatar_for(user) %>
+                    <%= link_to admin_board_member_path(@board, user), method: :delete, data: {confirm: 'Are you sure to remove this member?'}, title: 'Click to remove this member' do %>
+                        <%= gravatar_for(user) %>
+                    <% end %>
                     <span class="users-list-date">Added <%= added_time(user, @board) %></span>
                   </li>
                 <% end %>
@@ -105,26 +109,5 @@
     </div>
   </div>
   <!-- /.row -->
-<!--script-->
-<script type="text/javascript" charset="utf-8">
-    $(document).ready(function() {
-
-        var availableTags = ["http://www.google.com","http://www.yahoo.com",
-            "http://www.utexas.edu"];
-        $("#send-along").autocomplete({
-            source: availableTags,
-            select: function(event, ui) {
-                window.location  = (ui.item.value);
-                return false;
-            }
-        }).data("autocomplete")._renderItem = function( ul, item ) {
-            return $( "<li></li>" )
-                .data( "item.autocomplete", item )
-                .append( "<a href='#'>"+ item.value + "</a>" )
-                .appendTo( ul );
-        };
-
-    });
-</script>
 
 </section>

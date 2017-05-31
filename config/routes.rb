@@ -11,7 +11,15 @@ Rails.application.routes.draw do
   resources :boards, :only => [:index, :new, :create, :show]
 
   namespace :admin do
-    resources :boards, only: [:show, :edit, :update, :destroy]
+    resources :boards, only: [:show, :edit, :update, :destroy] do
+      resources :members, only: [:new, :create, :destroy]
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: [:index]
+    end
   end
 
 end

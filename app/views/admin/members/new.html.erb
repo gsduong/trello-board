@@ -1,0 +1,60 @@
+<section class="content">
+  <div class="row">
+    <div class="col-md-4">
+      <p>&nbsp;</p>
+    </div>
+    <div class="col-md-4">
+      <h1>New member</h1>
+
+      <%= render 'form' %>
+      <br>
+      <%= link_to 'Back', admin_board_path(@board) %>
+    </div>
+    <div class="col-md-4">
+      <p>&nbsp;</p>
+    </div>
+  </div>
+</section>
+
+<!--script-->
+<script type="text/javascript" charset="utf-8">
+  var btn_submit = $("input#submit");
+  var input = $("input#member_id");
+  var search_input = $("#send-along");
+  $(document).ready(function() {
+      btn_submit.prop("disabled", true);
+      search_input.autocomplete({
+          source: function (request, response) {
+              $.ajax({
+                  url: "/api/v1/users?search=" + search_input.val(),
+                  type: "GET",
+                  data: request,
+                  success: function (data) {
+                      response($.map(data.users, function (el) {
+                          return {
+                              id: el.id,
+                              email: el.email
+                          };
+                      }));
+                  }
+              });
+          },
+          select: function(event, ui) {
+//                window.location  = (ui.item.email);
+              return false;
+          }
+      }).data("ui-autocomplete")._renderItem = function( ul, item ) {
+          return $( '<li></li>' )
+              .data( "item.autocomplete", item )
+              .append( '<a id="' + item.id + '" data-id="' + item.id + '">'+ item.email + '</a>' )
+              .appendTo( ul );
+      };
+  });
+
+  $(document).on("click", "a.ui-menu-item-wrapper", function () {
+      var member_id = this.getAttribute("data-id");
+      input.val(member_id);
+      btn_submit.prop("disabled", false);
+      btn_submit.click();
+  })
+</script>
