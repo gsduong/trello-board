@@ -43,7 +43,7 @@ class Admin::MembersController < ApplicationController
     def set_board
       board_id = params[:board_id]
       @board = Board.find(board_id)
-      redirect_to admin_board_path unless (!@board.nil?)
+      redirect_to boards_path unless (!@board.nil?)
     end
 
     def set_member
