@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :boards, only: [:show, :edit, :update, :destroy] do
       resources :members, only: [:new, :create, :destroy]
+      resources :lists, only: [:new, :create, :edit, :update, :destroy]
     end
   end
 

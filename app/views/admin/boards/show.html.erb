@@ -1,20 +1,27 @@
 <section class="content-header">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-6">
       <h2>
         <%= link_to "#{@board.name}", edit_admin_board_path(@board) %>
         <small><small><small>Created on <%= @board.created_at.strftime('%b %d, %Y') %></small></small></small>
       </h2>
-      <small><small><%= @board.description %></small></small>
+      <small><%= @board.description %></small>
     </div>
-
-
-  <div class="col-md-3">
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <%= link_to 'Add new member', new_admin_board_member_path(@board) %>
   </div>
-
+  <div class="row">
+    <p>&nbsp;</p>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-6">
+          <%= link_to 'Add list', new_admin_board_list_path(@board) %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <%= link_to 'Add member', new_admin_board_member_path(@board) %>
+    </div>
   </div>
 </section>
 
@@ -23,50 +30,93 @@
   <!-- Main row-->
   <div class="row">
     <div class="col-md-9">
-      <div class="box box-success">
-        <div class="box-header with-border">
-          <h3 class="box-title">Visitors Report</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body no-padding">
+      <% @board.lists.each_slice(3) do |list_array| %>
           <div class="row">
-            <div class="col-md-9 col-sm-8">
+            <% list_array.each do |list| %>
+                <div class="col-md-4">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title"><%= link_to "#{list.title}", edit_admin_board_list_path(@board, list) %></h3>
 
-            </div>
-            <!-- /.col -->
-            <div class="col-md-3 col-sm-4">
-              <div class="pad box-pane-right bg-green" style="min-height: 280px">
-                <div class="description-block margin-bottom">
-                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
-                  <h5 class="description-header">8390</h5>
-                  <span class="description-text">Visits</span>
+                      <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Collapse/Expand"><i class="fa fa-folder-open" title="Collapse/Expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove" title="Hide"><i class="fa fa-minus" title="Hide"></i></button>
+                        <button type="button" class="btn btn-box-tool" title="Delete">
+                          <%= link_to admin_board_list_path(@board, list), method: :delete, data: {confirm: 'Are you sure to remove this list?'} do %>
+                              <i class="fa fa-times" title="Delete"></i>
+                          <% end %>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                      <ul class="products-list product-list-in-box">
+                        <li class="item">
+                          <div class="product-img">
+                            <img alt="Product Image">
+                          </div>
+                          <div class="product-info">
+                            <a href="javascript:void(0)" class="product-title">Samsung TV
+                              <span class="label label-warning pull-right">$1800</span></a>
+                            <span class="product-description">
+                          Samsung 32" 1080p 60Hz LED Smart HDTV.
+                        </span>
+                          </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                          <div class="product-img">
+                            <img  alt="Product Image">
+                          </div>
+                          <div class="product-info">
+                            <a href="javascript:void(0)" class="product-title">Bicycle
+                              <span class="label label-info pull-right">$700</span></a>
+                            <span class="product-description">
+                          26" Mongoose Dolomite Men's 7-speed, Navy Blue.
+                        </span>
+                          </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                          <div class="product-img">
+                            <img alt="Product Image">
+                          </div>
+                          <div class="product-info">
+                            <a href="javascript:void(0)" class="product-title">Xbox One <span class="label label-danger pull-right">$350</span></a>
+                            <span class="product-description">
+                          Xbox One Console Bundle with Halo Master Chief Collection.
+                        </span>
+                          </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                          <div class="product-img">
+                            <img  alt="Product Image">
+                          </div>
+                          <div class="product-info">
+                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                              <span class="label label-success pull-right">$399</span></a>
+                            <span class="product-description">
+                          PlayStation 4 500GB Console (PS4)
+                        </span>
+                          </div>
+                        </li>
+                        <!-- /.item -->
+                      </ul>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer text-center">
+                      <%= link_to 'Add card', new_admin_board_member_path(@board) %>
+                    </div>
+                    <!-- /.box-footer -->
+                  </div>
                 </div>
-                <!-- /.description-block -->
-                <div class="description-block margin-bottom">
-                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
-                  <h5 class="description-header">30%</h5>
-                  <span class="description-text">Referrals</span>
-                </div>
-                <!-- /.description-block -->
-                <div class="description-block">
-                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
-                  <h5 class="description-header">70%</h5>
-                  <span class="description-text">Organic</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-            </div>
-            <!-- /.col -->
+            <% end %>
           </div>
-          <!-- /.row -->
-        </div>
-        <!-- /.box-body -->
+      <% end %>
+      <div class="row">
+
       </div>
     </div>
     <div class="col-md-3">

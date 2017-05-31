@@ -1,0 +1,10 @@
+<%= form_for [:admin, @board, @list] do |f| %>
+    <%= f.label :title %>
+    <%= f.text_field :title, class: 'form-control', :required => true %>
+    <br>
+    <div class="actions">
+      <%= f.submit 'Submit', class: 'btn btn-info' %>
+    </div>
+<% end %>
+<br>
+<%= link_to 'Back', admin_board_path(@board) %>
