@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many  :boards, :through => :board_members, dependent: :destroy
 
   # Define has_many CardMember
-  has_many  :card_members, :class_name => 'CardMember', :foreign_key => 'member_id'
+  has_many  :card_members, :foreign_key => 'member_id', :class_name => 'CardMember'
   has_many  :cards, :through => :card_members
 
 
@@ -52,4 +52,8 @@ class User < ApplicationRecord
     record.nil? ? false : record[:admin]
   end
 
+  def is_member?(board)
+    record = self.board_members.find_by(board_id: board.id)
+    !record.nil?
+  end
 end

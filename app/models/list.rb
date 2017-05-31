@@ -3,5 +3,5 @@ class List < ApplicationRecord
   belongs_to  :board
 
   # Define has_many Card
-  has_many  :cards
+  has_many  :cards, dependent: :destroy
 end

@@ -4,3 +4,42 @@
 .content-header {
     padding: 0 15px 0 15px !important;
 }
+
+.calendar-text { margin-top: 5px !important; font-size: 10px !important; }
+
+.fa-stack {
+    margin-top: -15px !important;
+}
+
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+}
+.list-group-horizontal .list-group-item {
+    margin-bottom: 0;
+    margin-left:-4px;
+    margin-right: 0;
+    border: 0 !important;
+}
+.list-group-horizontal .list-group-item:first-child {
+    border-top-right-radius:0;
+    border-bottom-left-radius:0;
+}
+.list-group-horizontal .list-group-item:last-child {
+    border-top-right-radius:0;
+    border-bottom-left-radius:0;
+}
+
+ul.list-group {
+    margin-bottom: 0 !important;
+}
+
+li.list-group-item {
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.card {
+    border-bottom: 0 !important;
+}

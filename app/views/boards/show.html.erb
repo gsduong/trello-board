@@ -1,11 +1,21 @@
 <section class="content-header">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-6">
       <h2>
         <%= @board.name %>
         <small><small><small>Created on <%= @board.created_at.strftime('%b %d, %Y') %></small></small></small>
       </h2>
       <small><small><%= @board.description %></small></small>
+    </div>
+  </div>
+  <div class="row">
+    <p>&nbsp;</p>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <%= link_to new_board_card_path(@board) do %>
+          <span class="label label-info pull-left">Add card</span>
+      <% end %>
     </div>
   </div>
 </section>
@@ -15,50 +25,69 @@
   <!-- Main row-->
   <div class="row">
     <div class="col-md-9">
-      <div class="box box-success">
-        <div class="box-header with-border">
-          <h3 class="box-title">Visitors Report</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body no-padding">
+      <% @board.lists.each_slice(3) do |list_array| %>
           <div class="row">
-            <div class="col-md-9 col-sm-8">
+            <% list_array.each do |list| %>
+                <div class="col-md-4">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title"><%= list.title %></h3>
 
-            </div>
-            <!-- /.col -->
-            <div class="col-md-3 col-sm-4">
-              <div class="pad box-pane-right bg-green" style="min-height: 280px">
-                <div class="description-block margin-bottom">
-                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
-                  <h5 class="description-header">8390</h5>
-                  <span class="description-text">Visits</span>
+                      <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Collapse/Expand"><i class="fa fa-folder-open" title="Collapse/Expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove" title="Hide"><i class="fa fa-minus" title="Hide"></i></button>
+                      </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                      <ul class="products-list product-list-in-box">
+                        <% list.cards.each do |card| %>
+                            <li class="item">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="info-box">
+                                    <span class="info-box-icon <%= due_date_today(card) %>">
+                                      <span class="fa-stack fa-1x">
+                                      <i class="fa fa-calendar-o fa-stack-1x"></i>
+                                      <small class="fa-stack-1x calendar-text"><%= card.due_date.strftime('%b %d')%></small>
+                                      </span>
+                                    </span>
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">
+                                        <% if card.belong_to?(current_user)%>
+                                          <%= link_to "#{card.title}", edit_board_card_path(@board, card) %>
+                                            <span class="label label-warning pull-right">your card</span>
+                                        <% else %>
+                                          <%= card.title %>
+                                        <% end %>
+                                        <span class="pull-right">&nbsp;</span>
+                                        <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
+                                      </span>
+                                      <small><span><%= card.description%></span></small>
+                                      <ul class="list-group list-group-horizontal list-group-unbordered">
+                                        <% card.users.each do |user| %>
+                                        <li class="list-group-item"><%= gravatar_for(user, :size => 30) %></li>
+                                        <% end %>
+                                      </ul>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                        <% end %>
+                        <!-- /.cards -->
+                      </ul>
+                    </div>
+                    <!-- /.box-body -->
+                  </div>
                 </div>
-                <!-- /.description-block -->
-                <div class="description-block margin-bottom">
-                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
-                  <h5 class="description-header">30%</h5>
-                  <span class="description-text">Referrals</span>
-                </div>
-                <!-- /.description-block -->
-                <div class="description-block">
-                  <div class="sparkbar pad" data-color="#fff"><canvas width="34" height="30" style="display: inline-block; width: 34px; height: 30px; vertical-align: top;"></canvas></div>
-                  <h5 class="description-header">70%</h5>
-                  <span class="description-text">Organic</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-            </div>
-            <!-- /.col -->
+            <% end %>
           </div>
-          <!-- /.row -->
-        </div>
-        <!-- /.box-body -->
+      <% end %>
+      <div class="row">
+
       </div>
     </div>
     <div class="col-md-3">
@@ -71,33 +100,22 @@
           <ul class="users-list clearfix">
             <li>
               <%= gravatar_for(@admin) %>
-              <span class="users-list-date">Added <%= added_time(@admin, @board) %></span>
+              <span class="users-list-date"><small>Admin from <%= added_time(@admin, @board) %></small></span>
             </li>
-          </ul>
-          <!-- /.admin -->
-        </div>
-      </div>
-      <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Members</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body no-padding">
-          <ul class="users-list clearfix">
             <% @board.users.each do |user| %>
                 <% if user.id != @admin.id %>
-                  <li>
-                    <%= gravatar_for(user) %>
-                    <span class="users-list-date">Added <%= added_time(user, @board) %></span>
-                  </li>
-                  <% end %>
+                    <li>
+                      <%= gravatar_for(user) %>
+                      <span class="users-list-date"><small>Joined on <%= added_time(user, @board) %></small></span>
+                    </li>
+                <% end %>
             <% end %>
           </ul>
-          <!-- /.users-list -->
+          <!-- /.members -->
         </div>
       </div>
     </div>
   </div>
   <!-- /.row -->
-<!--script-->
+  <!--script-->
 </section>
