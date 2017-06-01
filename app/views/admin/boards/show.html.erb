@@ -87,9 +87,14 @@
                                         <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
                                       </span>
                                       <small><span><%= card.description%></span></small>
+                                      <%= link_to new_admin_board_card_card_member_path(@board, card) do %>
+                                          <span class="label label-info pull-right">Add member</span>
+                                      <% end %>
                                       <ul class="list-group list-group-horizontal list-group-unbordered">
                                         <% card.users.each do |user| %>
-                                            <li class="list-group-item"><%= gravatar_for(user, :size => 30) %></li>
+                                            <%= link_to admin_board_card_card_member_path(@board, card, user), method: :delete, data: {confirm: 'Are you sure to remove this member?'}, title: 'Click to remove this member' do %>
+                                                <%= gravatar_for(user, :size => 20) %>
+                                            <% end %>
                                         <% end %>
                                       </ul>
                                     </div>
