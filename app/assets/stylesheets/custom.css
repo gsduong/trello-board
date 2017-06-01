@@ -30,7 +30,8 @@
 }
 
 ul.list-group {
-    margin-bottom: 0 !important;
+    margin-top: 20px !important;
+    margin-bottom: -5px !important;
 }
 
 li.list-group-item {
@@ -42,4 +43,7 @@ li.list-group-item {
 
 .card {
     border-bottom: 0 !important;
+}
+.info-box-text {
+    text-transform: none !important;
 }

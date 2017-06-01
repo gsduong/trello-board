@@ -1,0 +1,36 @@
+<section class="content">
+  <div class="row">
+    <div class="col-md-4">
+      <p>&nbsp;</p>
+    </div>
+    <div class="col-md-4">
+      <h1>Assign for</h1>
+
+      <div class="row">
+        <div class="col-md-12">
+          <%= form_for [:admin, @board, @card, @card_member ] do |f| %>
+              <div class="row">
+                <div class="col-md-6">
+                  <%= f.label :member_id, 'Member' %>
+                  <%= f.select :member_id, @card.list.board.users.collect {|l| [ l.email, l.id] }, {}, { include_blank: true, required: true, class: 'form-control' } %>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="actions">
+                    <%= f.submit 'Submit', class: 'btn btn-info' %>
+                  </div>
+                </div>
+              </div>
+          <% end %>
+        </div>
+      </div>
+      <br>
+      <%= link_to 'Back', admin_board_path(@card.list.board) %>
+    </div>
+    <div class="col-md-4">
+      <p>&nbsp;</p>
+    </div>
+  </div>
+</section>
