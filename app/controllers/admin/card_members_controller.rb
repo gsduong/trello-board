@@ -31,6 +31,7 @@ class Admin::CardMembersController < ApplicationController
     else
       flash[:error] = 'User already in card!'
     end
+    redirect_to admin_board_path(@board)
 
   end
 
