@@ -62,12 +62,19 @@
                                           <%= card.title %>
                                         <% end %>
                                         <span class="pull-right">&nbsp;</span>
-                                        <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
+                                        <% if card.progress == 100 %>
+                                          <span class="label label-success pull-right"><%= card.progress %>%</span>
+                                          <span class="pull-right">&nbsp;</span>
+                                        <% else %>
+                                          <span class="label label-warning pull-right"><%= card.progress %>%</span>
+                                          <span class="pull-right">&nbsp;</span>
+                                          <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
+                                        <% end %>
                                       </span>
                                       <small><span><%= card.description%></span></small>
                                       <ul class="list-group list-group-horizontal list-group-unbordered">
                                         <% card.users.each do |user| %>
-                                        <li class="list-group-item"><%= gravatar_for(user, :size => 30) %></li>
+                                        <li class="list-group-item"><%= gravatar_for(user, :size => 20) %></li>
                                         <% end %>
                                       </ul>
                                     </div>

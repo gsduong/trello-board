@@ -1,20 +1,22 @@
 class Admin::BoardsController < ApplicationController
-  before_action :set_board, :only => [:show, :edit, :update, :destroy]
+  before_action :require_login
   before_action :require_admin, :only => [:show, :edit, :update, :destroy]
 
 
   # GET admin/boards/1
   def show
-    @board = Board.find(params[:id])
+    @board = current_user.boards.find(params[:id])
     @members = @board.users
   end
 
   # GET admin/boards/1/edit
   def edit
+    @board = current_user.boards.find(params[:id])
   end
 
   # PATCH/PUT /boards/1
   def update
+    @board = current_user.boards.find(params[:id])
     if @board.update(board_params)
       flash[:success] = 'Successfully updated board!'
       redirect_to boards_path
@@ -25,6 +27,7 @@ class Admin::BoardsController < ApplicationController
 
   # DELETE /boards/1
   def destroy
+    @board = current_user.boards.find(params[:id])
     @board.destroy
     flash[:success] = 'Successfully deleted board!'
     redirect_to boards_path
@@ -33,7 +36,7 @@ class Admin::BoardsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_board
-      @board = Board.find_by(id: params[:id])
+      @board = current_user.boards.find_by(id: params[:id])
       redirect_to root_url unless (!@board.nil?)
     end
 
@@ -44,6 +47,7 @@ class Admin::BoardsController < ApplicationController
 
   # Filter
   def require_admin
+    @board = current_user.boards.find(params[:id])
     unless current_user.is_admin?(@board)
       redirect_back(fallback_location: root_url)
     end

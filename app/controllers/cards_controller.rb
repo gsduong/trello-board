@@ -1,6 +1,6 @@
 class CardsController < ApplicationController
+  before_action :require_login
   before_action :set_board
-
   def new
     @card = Card.new
   end
@@ -10,7 +10,7 @@ class CardsController < ApplicationController
   end
 
   def create
-    redirect_to root_url unless current_user.is_member?(@board)
+    redirect_to boards_path unless current_user.is_member?(@board)
     @card = Card.new(params.require(:card).permit(:title, :list_id, :due_date, :description, :progress ))
     if @card.save
       card_member = CardMember.new(card_id: @card.id, member_id: current_user.id)
@@ -32,9 +32,8 @@ class CardsController < ApplicationController
   end
 
   private
-
     def set_board
-      @board = Board.find(params[:board_id])
-      redirect_to root_url unless (!@board.nil?)
+      @board = current_user.boards.find(params[:board_id])
+      redirect_to boards_path unless (!@board.nil?)
     end
 end

@@ -30,7 +30,7 @@
 
     <div class="col-md-3">
       <%= link_to new_admin_board_member_path(@board) do %>
-          <span class="label label-info pull-left">Add member</span>
+          <span class="label label-info pull-left">Find new member</span>
       <% end %>
     </div>
   </div>
@@ -82,9 +82,14 @@
                                             <span class="label label-danger pull-right">Del</span>
                                         <% end %>
                                         <span class="pull-right">&nbsp;</span>
-                                        <span class="label label-warning pull-right"><%= card.progress %>%</span>
-                                        <span class="pull-right">&nbsp;</span>
-                                        <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
+                                        <% if card.progress == 100 %>
+                                          <span class="label label-success pull-right"><%= card.progress %>%</span>
+                                          <span class="pull-right">&nbsp;</span>
+                                        <% else %>
+                                          <span class="label label-warning pull-right"><%= card.progress %>%</span>
+                                          <span class="pull-right">&nbsp;</span>
+                                          <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
+                                        <% end %>
                                       </span>
                                       <small><span><%= card.description%></span></small>
                                       <%= link_to new_admin_board_card_card_member_path(@board, card) do %>

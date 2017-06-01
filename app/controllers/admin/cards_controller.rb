@@ -1,5 +1,6 @@
 class Admin::CardsController < ApplicationController
 
+  before_action :require_login
   before_action :set_board
 
   def new
@@ -49,7 +50,7 @@ class Admin::CardsController < ApplicationController
 
   private
     def set_board
-      @board = Board.find(params[:board_id])
+      @board = current_user.boards.find(params[:board_id])
       redirect_to boards_path unless (!@board.nil?)
     end
 end

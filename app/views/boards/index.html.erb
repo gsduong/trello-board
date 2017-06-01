@@ -20,7 +20,7 @@
                     <li class="list-group-item">
                       <%= board.name %>
 
-                      <%= link_to edit_admin_board_path(board), method: :delete, data: {confirm: 'Are you sure?'}, class: 'pull-right' do %>
+                      <%= link_to admin_board_path(board), method: :delete, data: {confirm: 'Are you sure?'}, class: 'pull-right' do %>
                           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                       <% end %>
                       <span class="pull-right">&nbsp;&nbsp;</span>

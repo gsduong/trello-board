@@ -1,7 +1,7 @@
 class Admin::MembersController < ApplicationController
-  before_action :set_board, :only => [:new, :create, :destroy]
-  before_action :set_member, :only => [:destroy]
-  before_action :require_admin, :only => [:new, :create, :destroy]
+  before_action :require_login
+  before_action :set_board
+  before_action :require_admin
 
 
   def new
@@ -21,11 +21,13 @@ class Admin::MembersController < ApplicationController
       #   Dont save this
       end
     end
+    flash[:success] = 'Member successfully added to board!'
     redirect_to admin_board_path(@board)
   end
 
   def destroy
-    if @member.id != current_user.id
+    @member = User.find(params[:id])
+    if @member != current_user
       if (board_member = BoardMember.find_by(board_id: @board.id, member_id: @member.id))
           board_member.destroy
       end
@@ -42,20 +44,18 @@ class Admin::MembersController < ApplicationController
 
   private
     def require_admin
-      board = Board.find(params[:board_id])
+      board = current_user.boards.find(params[:board_id])
       redirect_to admin_board_path(board) unless current_user.is_admin?(board)
 
     end
 
     def set_board
-      board_id = params[:board_id]
-      @board = Board.find(board_id)
+      @board = current_user.boards.find(params[:board_id])
       redirect_to boards_path unless (!@board.nil?)
     end
 
     def set_member
-      member_id = params[:id]
-      @member = User.find(member_id)
+      @member = @board.users.find(params[:id])
       redirect_to admin_board_path unless (!@member.nil?)
     end
 
