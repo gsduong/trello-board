@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-12">
+    <%= form_for [:admin, @board, @card] do |f| %>
+        <div class="row">
+          <div class="col-md-12">
+            <%= f.label :title %>
+            <%= f.text_field :title, class: 'form-control', :required => true %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <%= f.label :list_id, 'List' %>
+            <%= f.select :list_id, @board.lists.collect {|l| [ l.title, l.id] }, {}, { include_blank: true, required: true, class: 'form-control' } %>
+          </div>
+          <div class="col-md-6">
+            <%= f.label :due_date %>
+            <%= f.date_field :due_date, { :min => Date.today, :required => true, :class => 'form-control' }%>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <%= f.label :progress %>
+            <%= f.range_field :progress, {:min => 0, :max => 100, :onchange => "document.getElementById('progress').innerHTML = this.value;"} %>
+          </div>
+          <div class="col-md-2">
+            <label>Percent</label>
+            <p id="progress">&nbsp;</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <%= f.label :description %>
+            <%= f.text_field :description, class: 'form-control' %>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="actions">
+              <%= f.submit 'Submit', class: 'btn btn-info' %>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+<br>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.selectpicker').multiselect();
+    });
+</script>
+<%= link_to 'Back', admin_board_path(@board) %>

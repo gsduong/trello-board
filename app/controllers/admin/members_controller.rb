@@ -29,7 +29,14 @@ class Admin::MembersController < ApplicationController
       if (board_member = BoardMember.find_by(board_id: @board.id, member_id: @member.id))
           board_member.destroy
       end
+
+      @board.lists.each do |list|
+        list.cards.each do |card|
+          card.card_members.where(member_id: @member.id).delete_all
+        end
+      end
     end
+    flash[:success] = 'Successfully removed user!'
     redirect_to admin_board_path(@board)
   end
 

@@ -12,15 +12,26 @@
     <p>&nbsp;</p>
   </div>
   <div class="row">
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-6">
-          <%= link_to 'Add list', new_admin_board_list_path(@board) %>
-        </div>
-      </div>
-    </div>
     <div class="col-md-3">
-      <%= link_to 'Add member', new_admin_board_member_path(@board) %>
+      <%= link_to new_admin_board_list_path(@board) do %>
+          <span class="label label-info pull-left">Add list</span>
+      <% end %>
+    </div>
+
+    <div class="col-md-3">
+      <%= link_to new_admin_board_card_path(@board) do %>
+          <span class="label label-info pull-left">Add card</span>
+      <% end %>
+    </div>
+
+    <div class="col-md-3">
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="col-md-3">
+      <%= link_to new_admin_board_member_path(@board) do %>
+          <span class="label label-info pull-left">Add member</span>
+      <% end %>
     </div>
   </div>
 </section>
@@ -52,64 +63,46 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                       <ul class="products-list product-list-in-box">
-                        <li class="item">
-                          <div class="product-img">
-                            <img alt="Product Image">
-                          </div>
-                          <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">Samsung TV
-                              <span class="label label-warning pull-right">$1800</span></a>
-                            <span class="product-description">
-                          Samsung 32" 1080p 60Hz LED Smart HDTV.
-                        </span>
-                          </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                          <div class="product-img">
-                            <img  alt="Product Image">
-                          </div>
-                          <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">Bicycle
-                              <span class="label label-info pull-right">$700</span></a>
-                            <span class="product-description">
-                          26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                        </span>
-                          </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                          <div class="product-img">
-                            <img alt="Product Image">
-                          </div>
-                          <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">Xbox One <span class="label label-danger pull-right">$350</span></a>
-                            <span class="product-description">
-                          Xbox One Console Bundle with Halo Master Chief Collection.
-                        </span>
-                          </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                          <div class="product-img">
-                            <img  alt="Product Image">
-                          </div>
-                          <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
-                              <span class="label label-success pull-right">$399</span></a>
-                            <span class="product-description">
-                          PlayStation 4 500GB Console (PS4)
-                        </span>
-                          </div>
-                        </li>
-                        <!-- /.item -->
+                        <% list.cards.each do |card| %>
+                            <li class="item">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="info-box">
+                                    <span class="info-box-icon <%= due_date_today(card) %>">
+                                      <span class="fa-stack fa-1x">
+                                      <i class="fa fa-calendar-o fa-stack-1x"></i>
+                                      <small class="fa-stack-1x calendar-text"><%= card.due_date.strftime('%b %d')%></small>
+                                      </span>
+                                    </span>
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">
+                                        <%= link_to "#{card.title}", edit_admin_board_card_path(@board, card) %>
+
+                                        <%= link_to admin_board_card_path(@board, card), method: :delete, data: {confirm: 'Are you sure to remove this card?'} do %>
+                                            <span class="label label-danger pull-right">Del</span>
+                                        <% end %>
+                                        <span class="pull-right">&nbsp;</span>
+                                        <span class="label label-warning pull-right"><%= card.progress %>%</span>
+                                        <span class="pull-right">&nbsp;</span>
+                                        <progress value="<%= card.progress %>" max="100" class="pull-right" style="width: 50px;"></progress>
+                                      </span>
+                                      <small><span><%= card.description%></span></small>
+                                      <ul class="list-group list-group-horizontal list-group-unbordered">
+                                        <% card.users.each do |user| %>
+                                            <li class="list-group-item"><%= gravatar_for(user, :size => 30) %></li>
+                                        <% end %>
+                                      </ul>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                        <% end %>
+                        <!-- /.cards -->
                       </ul>
                     </div>
                     <!-- /.box-body -->
-                    <div class="box-footer text-center">
-                      <%= link_to 'Add card', new_admin_board_member_path(@board) %>
-                    </div>
-                    <!-- /.box-footer -->
                   </div>
                 </div>
             <% end %>
@@ -129,31 +122,20 @@
           <ul class="users-list clearfix">
             <li>
               <%= gravatar_for(current_user) %>
-              <span class="users-list-date">Added <%= added_time(current_user, @board) %></span>
+              <span class="users-list-date"><small>Admin from <%= added_time(current_user, @board) %></small></span>
             </li>
-          </ul>
-          <!-- /.admin -->
-        </div>
-      </div>
-      <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Members</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body no-padding">
-          <ul class="users-list clearfix">
             <% @members.each do |user| %>
                 <% if user.id != current_user.id %>
-                  <li>
-                    <%= link_to admin_board_member_path(@board, user), method: :delete, data: {confirm: 'Are you sure to remove this member?'}, title: 'Click to remove this member' do %>
-                        <%= gravatar_for(user) %>
-                    <% end %>
-                    <span class="users-list-date">Added <%= added_time(user, @board) %></span>
-                  </li>
+                    <li>
+                      <%= link_to admin_board_member_path(@board, user), method: :delete, data: {confirm: 'Are you sure to remove this member?'}, title: 'Click to remove this member' do %>
+                          <%= gravatar_for(user) %>
+                      <% end %>
+                      <span class="users-list-date"><small>Joined on <%= added_time(user, @board) %></small></span>
+                    </li>
                 <% end %>
             <% end %>
           </ul>
-          <!-- /.users-list -->
+          <!-- /.admin -->
         </div>
       </div>
     </div>
